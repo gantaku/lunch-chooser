@@ -87,11 +87,22 @@ document.addEventListener('DOMContentLoaded', async function() {
 // データ読み込み
 async function loadData() {
     try {
-        // Google Sheetsからデータ読み込み
-        await loadRestaurantsFromGoogleSheets();
-
-        // 履歴データを読み込み（共有履歴またはローカルストレージから）
-        await loadHistory();
+        // ローディング表示
+        showLoadingStatus('データを読み込み中...');
+        
+        // 並列読み込みで高速化
+        const [restaurantsResult, historyResult] = await Promise.allSettled([
+            loadRestaurantsFromGoogleSheets(),
+            loadHistory()
+        ]);
+        
+        if (restaurantsResult.status === 'rejected') {
+            console.error('店舗データ読み込みエラー:', restaurantsResult.reason);
+        }
+        
+        if (historyResult.status === 'rejected') {
+            console.error('履歴データ読み込みエラー:', historyResult.reason);
+        }
 
         // 設定を読み込み
         const savedSettings = localStorage.getItem('lunchSettings');
@@ -103,8 +114,10 @@ async function loadData() {
             document.getElementById('new-discovery-rating-value').textContent = settings.newDiscoveryRating;
         }
 
+        hideLoadingStatus();
         console.log('データ読み込み完了:', restaurants.length, '件の店舗');
     } catch (error) {
+        hideLoadingStatus();
         console.error('データ読み込みエラー:', error);
         // フォールバックデータを使用
         restaurants = FALLBACK_RESTAURANT_DATA.restaurants;
@@ -508,8 +521,16 @@ async function loadFromSharedHistory() {
         const callbackName = 'loadHistoryCallback_' + Date.now();
         const url = `${GOOGLE_APPS_SCRIPT_URL}?action=getHistory&callback=${callbackName}`;
         
+        // 5秒タイムアウト設定
+        const timeout = setTimeout(() => {
+            document.head.removeChild(script);
+            delete window[callbackName];
+            reject(new Error('共有履歴読み込みタイムアウト (5秒)'));
+        }, 5000);
+        
         // グローバルコールバック関数を作成
         window[callbackName] = function(result) {
+            clearTimeout(timeout);
             try {
                 // スクリプトタグを削除
                 document.head.removeChild(script);
@@ -635,6 +656,24 @@ function checkSharedHistoryStatus() {
     console.log('WebApp URL:', GOOGLE_APPS_SCRIPT_URL);
     console.log('フォールバック設定:', HISTORY_CONFIG.fallbackToLocal);
     console.log('現在の履歴件数:', weeklyHistory.length);
+}
+
+// ローディング表示
+function showLoadingStatus(message) {
+    const statusElement = document.getElementById('loading-status');
+    if (statusElement) {
+        statusElement.textContent = message;
+        statusElement.style.display = 'block';
+    } else {
+        console.log('🔄', message);
+    }
+}
+
+function hideLoadingStatus() {
+    const statusElement = document.getElementById('loading-status');
+    if (statusElement) {
+        statusElement.style.display = 'none';
+    }
 }
 
 // デバッグ用関数
