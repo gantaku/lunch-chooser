@@ -217,7 +217,7 @@ function createCORSResponse(content) {
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       'Access-Control-Max-Age': '3600',
       'X-Content-Type-Options': 'nosniff',
-      'X-Frame-Options': 'DENY',
+      'X-Frame-Options': 'SAMEORIGIN',
       'X-XSS-Protection': '1; mode=block'
     });
 }
