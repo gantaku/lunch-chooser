@@ -125,7 +125,63 @@ python3 -m http.server 8000
    - Google Cloud Console → APIs & Services → ライブラリ
    - Google Sheets API が有効になっているか確認
 
-#### 5. ブラウザでの表示問題
+#### 5. 共有履歴データ整合性問題
+
+**症状**: Sheet2と表示される履歴が一致しない、古いデータが混在
+**原因**: ローカルストレージの古いデータとの混在
+**解決方法**:
+
+1. **ローカルストレージクリア**:
+   ```javascript
+   localStorage.clear();
+   location.reload();
+   ```
+
+2. **共有履歴強制再読み込み**:
+   ```javascript
+   loadFromSharedHistory().then(() => {
+       updateWeeklyStatus();
+       console.log('最新履歴:', weeklyHistory);
+   });
+   ```
+
+3. **Google Apps Script URL確認**:
+   - 最新のデプロイURLが設定されているか確認
+   - GitHub Secrets の `GOOGLE_APPS_SCRIPT_URL` 値を確認
+
+#### 6. JSONP競合状態エラー
+
+**症状**: `ReferenceError: loadHistoryCallback_xxx is not defined`
+**原因**: タイムアウト処理とJSONPコールバックの競合
+**解決方法**:
+
+1. **ページリロード**: 通常は一時的なエラーのため、リロードで解決
+2. **ブラウザキャッシュクリア**: Ctrl+F5 (Windows) / Cmd+Shift+R (Mac)
+3. **共有履歴無効化テスト**:
+   ```javascript
+   // 一時的に共有履歴を無効化してテスト
+   HISTORY_CONFIG.useSharedHistory = false;
+   location.reload();
+   ```
+
+#### 7. パフォーマンス・読み込み速度問題
+
+**症状**: アプリの読み込みが遅い、応答しない
+**解決方法**:
+
+1. **ネットワーク確認**: 
+   - Google Sheets API接続の確認
+   - Google Apps Script応答速度の確認
+
+2. **ブラウザ開発者ツールでの確認**:
+   - Network タブで読み込み時間確認
+   - Console タブでエラー確認
+
+3. **タイムアウト確認**:
+   - 5秒タイムアウト後はローカルデータで動作
+   - 「共有履歴読み込みタイムアウト」は正常動作
+
+#### 8. ブラウザでの表示問題
 
 **症状**: レイアウトが崩れる、JavaScriptエラー
 **解決方法**:
