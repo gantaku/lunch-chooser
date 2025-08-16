@@ -1,0 +1,106 @@
+{
+  "restaurants": [
+    {
+      "id": 1,
+      "name": "山田食堂",
+      "genre": "和食",
+      "isNearby": true,
+      "canAccommodateFourPlus": true,
+      "ratings": [
+        {"userId": "田中", "stars": 4},
+        {"userId": "佐藤", "stars": 5},
+        {"userId": "山田", "stars": 3}
+      ]
+    },
+    {
+      "id": 2,
+      "name": "中華楼",
+      "genre": "中華",
+      "isNearby": false,
+      "canAccommodateFourPlus": true,
+      "ratings": [
+        {"userId": "田中", "stars": 3},
+        {"userId": "佐藤", "stars": 4}
+      ]
+    },
+    {
+      "id": 3,
+      "name": "パスタハウス",
+      "genre": "イタリアン",
+      "isNearby": true,
+      "canAccommodateFourPlus": false,
+      "ratings": [
+        {"userId": "佐藤", "stars": 4},
+        {"userId": "山田", "stars": 4},
+        {"userId": "鈴木", "stars": 5}
+      ]
+    },
+    {
+      "id": 4,
+      "name": "ステーキハウス",
+      "genre": "洋食",
+      "isNearby": false,
+      "canAccommodateFourPlus": true,
+      "ratings": [
+        {"userId": "田中", "stars": 5},
+        {"userId": "山田", "stars": 4}
+      ]
+    },
+    {
+      "id": 5,
+      "name": "寿司処",
+      "genre": "和食",
+      "isNearby": true,
+      "canAccommodateFourPlus": true,
+      "ratings": [
+        {"userId": "佐藤", "stars": 5},
+        {"userId": "鈴木", "stars": 4},
+        {"userId": "田中", "stars": 4}
+      ]
+    },
+    {
+      "id": 6,
+      "name": "カレーハウス",
+      "genre": "カレー",
+      "isNearby": true,
+      "canAccommodateFourPlus": false,
+      "ratings": [
+        {"userId": "山田", "stars": 3},
+        {"userId": "鈴木", "stars": 4}
+      ]
+    },
+    {
+      "id": 7,
+      "name": "ラーメン横丁",
+      "genre": "ラーメン",
+      "isNearby": true,
+      "canAccommodateFourPlus": true,
+      "ratings": [
+        {"userId": "田中", "stars": 4},
+        {"userId": "佐藤", "stars": 3},
+        {"userId": "山田", "stars": 5}
+      ]
+    },
+    {
+      "id": 8,
+      "name": "フレンチビストロ",
+      "genre": "フレンチ",
+      "isNearby": false,
+      "canAccommodateFourPlus": false,
+      "ratings": [
+        {"userId": "佐藤", "stars": 5},
+        {"userId": "鈴木", "stars": 5}
+      ]
+    },
+    {
+      "id": "new-discovery",
+      "name": "新規開拓",
+      "genre": "新規開拓",
+      "isNearby": true,
+      "canAccommodateFourPlus": true,
+      "ratings": [
+        {"userId": "system", "stars": 3}
+      ]
+    }
+  ]
+}

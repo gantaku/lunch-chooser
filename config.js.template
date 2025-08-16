@@ -1,0 +1,10 @@
+// 設定ファイルテンプレート
+// このファイルを config.js にコピーして実際の値を設定してください
+
+// Google Sheets API設定
+window.GOOGLE_SHEETS_API_KEY = 'YOUR_NEW_API_KEY_HERE';
+window.GOOGLE_SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID_HERE';
+window.GOOGLE_APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
+
+// 注意: config.js ファイルは絶対にGitにコミットしないでください
+// .gitignore に config.js が含まれていることを確認してください

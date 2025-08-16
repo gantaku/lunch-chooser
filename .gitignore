@@ -1,0 +1,38 @@
+# 環境変数ファイル
+.env
+.env.local
+.env.development
+.env.production
+
+# 設定ファイル
+config.js
+config.json
+
+# ログファイル
+*.log
+logs/
+
+# 一時ファイル
+temp/
+*.tmp
+
+# IDE設定
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS生成ファイル
+.DS_Store
+Thumbs.db
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 秘密情報を含む可能性のあるファイル
+*secret*
+*private*
+*credential*

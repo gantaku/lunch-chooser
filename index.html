@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lunch Decider</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍽️ Lunch Decider</h1>
+            <p>条件を選んでランチの場所を決めましょう！</p>
+        </header>
+
+        <main>
+            <!-- 条件選択エリア -->
+            <section id="condition-section">
+                <h2>条件を選択してください</h2>
+                <div class="condition-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="nearby-filter">
+                        <span class="checkmark"></span>
+                        近場の店舗に限定
+                    </label>
+                </div>
+                <div class="condition-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="capacity-filter">
+                        <span class="checkmark"></span>
+                        4人以上入れる店舗に限定
+                    </label>
+                </div>
+                <button id="decide-btn" class="primary-btn">ランチを決める！</button>
+            </section>
+
+            <!-- 結果表示エリア -->
+            <section id="result-section" class="hidden">
+                <h2>🎯 今日のランチは...</h2>
+                <div id="result-card" class="result-card">
+                    <h3 id="restaurant-name"></h3>
+                    <div class="restaurant-details">
+                        <p class="genre">🏷️ ジャンル: <span id="restaurant-genre"></span></p>
+                        <p class="rating">⭐ 評価: <span id="restaurant-rating"></span></p>
+                        <p class="notes">💡 補足: <span id="restaurant-notes"></span></p>
+                        <div class="conditions">
+                            <span id="nearby-status" class="status-badge"></span>
+                            <span id="capacity-status" class="status-badge"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button id="retry-btn" class="secondary-btn">やり直し</button>
+                    <button id="confirm-btn" class="primary-btn">確定</button>
+                </div>
+            </section>
+
+            <!-- 今週の利用状況 -->
+            <section id="weekly-status">
+                <h3>📅 今週の利用状況</h3>
+                <div id="weekly-grid" class="weekly-grid">
+                    <div class="day-item"><strong>月:</strong> <span id="mon-status">-</span></div>
+                    <div class="day-item"><strong>火:</strong> <span id="tue-status">-</span></div>
+                    <div class="day-item"><strong>水:</strong> <span id="wed-status">-</span></div>
+                    <div class="day-item"><strong>木:</strong> <span id="thu-status">-</span></div>
+                    <div class="day-item"><strong>金:</strong> <span id="fri-status">-</span></div>
+                    <div class="day-item"><strong>土:</strong> <span id="sat-status">-</span></div>
+                    <div class="day-item"><strong>日:</strong> <span id="sun-status">-</span></div>
+                </div>
+            </section>
+
+            <!-- 設定エリア -->
+            <section id="settings-section">
+                <details>
+                    <summary>⚙️ 設定</summary>
+                    <div class="settings-content">
+                        <label>
+                            星評価重み係数: 
+                            <input type="range" id="rating-weight" min="1" max="3" step="0.1" value="1.5">
+                            <span id="rating-weight-value">1.5</span>
+                        </label>
+                        <label>
+                            新規開拓の確率: 
+                            <input type="range" id="new-discovery-rating" min="0.5" max="5" step="0.1" value="1.5">
+                            <span id="new-discovery-rating-value">1.5</span>
+                        </label>
+                        <button id="reset-history-btn" class="danger-btn">履歴をリセット</button>
+                    </div>
+                </details>
+            </section>
+        </main>
+
+        <footer>
+            <p>Lunch Decider v1.0 | 
+            <a href="https://github.com/ganta9/lunch-decider" target="_blank">GitHub</a></p>
+        </footer>
+    </div>
+
+    <!-- 設定ファイルを最初に読み込み（エラーハンドリング付き） -->
+    <script>
+        // config.js が存在しない場合の警告
+        window.onerror = function(msg, url, line, col, error) {
+            if (msg.includes('config.js')) {
+                console.warn('config.js が見つかりません。SECURITY_SETUP.md を参照して設定してください。');
+                alert('設定ファイルが見つかりません。SECURITY_SETUP.md を参照して config.js を作成してください。');
+            }
+            return false;
+        };
+    </script>
+    <script src="config.js" onerror="console.warn('config.js の読み込みに失敗しました')"></script>
+    <script src="script.js"></script>
+</body>
+</html>
