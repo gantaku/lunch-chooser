@@ -16,6 +16,10 @@ function loadEnvironmentConfig() {
     }
     
     console.log('Config.js が正常に読み込まれました');
+    console.log('APIキー（最初の10文字）:', window.GOOGLE_SHEETS_API_KEY ? window.GOOGLE_SHEETS_API_KEY.substring(0, 10) + '...' : '未設定');
+    console.log('スプレッドシートID:', window.GOOGLE_SPREADSHEET_ID ? 'OK' : '未設定');
+    console.log('Apps Script URL:', window.GOOGLE_APPS_SCRIPT_URL ? 'OK' : '未設定');
+    
     return {
         apiKey: window.GOOGLE_SHEETS_API_KEY || '',
         spreadsheetId: window.GOOGLE_SPREADSHEET_ID || '',
