@@ -156,8 +156,8 @@ async function loadRestaurantsFromGoogleSheets() {
     const headers = rows[0];
     const evaluatorColumns = [];
     
-    // F列以降で評価者列を特定（A:店名, B:ジャンル, C:補足, D:近場, E:4人以上, F以降:評価者）
-    for (let i = 5; i < headers.length; i++) {
+    // H列以降で評価者列を特定（A:店名, B:ジャンル, C:メモ, D:場所, E:URL, F:近場, G:4人以上, H以降:評価者）
+    for (let i = 7; i < headers.length; i++) {
         if (headers[i] && headers[i].trim() !== '' && headers[i].trim() !== '平均') {
             evaluatorColumns.push({
                 index: i,
@@ -191,9 +191,11 @@ async function loadRestaurantsFromGoogleSheets() {
             id: i, // 行番号をIDとして使用
             name: row[0] ? row[0].trim() : '',
             genre: row[1] ? row[1].trim() : '未分類',
-            notes: row[2] ? row[2].trim() : '', // 補足列を追加
-            isNearby: row[3] === '○',
-            canAccommodateFourPlus: row[4] === '○',
+            memo: row[2] ? row[2].trim() : '', // メモ列
+            location: row[3] ? row[3].trim() : '', // 場所列
+            url: row[4] ? row[4].trim() : '', // URL列
+            isNearby: row[5] === '○',
+            canAccommodateFourPlus: row[6] === '○',
             ratings: ratings
         };
         
@@ -258,8 +260,14 @@ function initializeUI() {
 
 // ランチ決定メイン処理
 function decideLunch() {
-    // 共有履歴同期失敗時の警告確認
-    if (isSharedHistoryFailed) {
+    // 条件を取得
+    const nearbyOnly = document.getElementById('nearby-filter').checked;
+    const capacityOnly = document.getElementById('capacity-filter').checked;
+    const noRamen = document.getElementById('no-ramen-filter').checked;
+    const ignoreHistory = document.getElementById('ignore-history-filter').checked;
+    
+    // お一人様モード以外で共有履歴同期失敗時の警告確認
+    if (!ignoreHistory && isSharedHistoryFailed) {
         const confirmMessage = '⚠️ 共有履歴との同期に失敗しています。\n' +
                               'チーム内で重複選択の可能性があります。\n' +
                               'それでもランチを決定しますか？';
@@ -268,15 +276,13 @@ function decideLunch() {
         }
     }
     
-    // 条件を取得
-    const nearbyOnly = document.getElementById('nearby-filter').checked;
-    const capacityOnly = document.getElementById('capacity-filter').checked;
-    
     // 候補をフィルタリング
-    let candidates = filterRestaurants(nearbyOnly, capacityOnly);
+    let candidates = filterRestaurants(nearbyOnly, capacityOnly, noRamen);
     
-    // 今週使用済みジャンルを除外
-    candidates = excludeUsedGenres(candidates);
+    // 履歴を考慮する場合のみ、今週使用済みジャンルを除外
+    if (!ignoreHistory) {
+        candidates = excludeUsedGenres(candidates);
+    }
     
     if (candidates.length === 0) {
         alert('条件に合う店舗がありません。条件を変更するか、履歴をリセットしてください。');
@@ -292,10 +298,13 @@ function decideLunch() {
 }
 
 // 店舗フィルタリング
-function filterRestaurants(nearbyOnly, capacityOnly) {
+function filterRestaurants(nearbyOnly, capacityOnly, noRamen) {
     return restaurants.filter(restaurant => {
         // 新規開拓は常に含める
         if (restaurant.id === 'new-discovery') return true;
+        
+        // ラーメン禁止フィルタ（最優先）
+        if (noRamen && restaurant.genre === 'ラーメン') return false;
         
         // 近場フィルタ
         if (nearbyOnly && !restaurant.isNearby) return false;
@@ -409,15 +418,35 @@ function displayResult(restaurant) {
         document.getElementById('restaurant-rating').textContent = 
             `${avgRating.toFixed(1)} (${ratingCount}人の評価)`;
         
-        // 補足情報を表示
-        const notesElement = document.getElementById('restaurant-notes');
-        const notesContainer = notesElement.parentElement;
-        if (restaurant.notes && restaurant.notes.trim()) {
-            notesElement.textContent = restaurant.notes;
-            notesContainer.style.display = 'block';
+        // メモ情報を表示
+        const memoElement = document.getElementById('restaurant-memo');
+        const memoSection = document.getElementById('memo-section');
+        if (restaurant.memo && restaurant.memo.trim()) {
+            memoElement.textContent = restaurant.memo;
+            memoSection.style.display = 'block';
         } else {
-            notesElement.textContent = '';
-            notesContainer.style.display = 'none';
+            memoSection.style.display = 'none';
+        }
+        
+        // 場所情報を表示
+        const locationElement = document.getElementById('restaurant-location');
+        const locationSection = document.getElementById('location-section');
+        if (restaurant.location && restaurant.location.trim()) {
+            locationElement.textContent = restaurant.location;
+            locationSection.style.display = 'block';
+        } else {
+            locationSection.style.display = 'none';
+        }
+        
+        // URL情報を表示
+        const urlElement = document.getElementById('restaurant-url');
+        const urlSection = document.getElementById('url-section');
+        if (restaurant.url && restaurant.url.trim()) {
+            urlElement.href = restaurant.url;
+            urlElement.textContent = 'リンクを開く';
+            urlSection.style.display = 'block';
+        } else {
+            urlSection.style.display = 'none';
         }
         
         // 条件表示
@@ -439,22 +468,30 @@ function retrySelection() {
 async function confirmSelection() {
     if (!currentSelection) return;
     
-    // 履歴に追加
-    const today = new Date();
-    const historyEntry = {
-        date: today.toISOString().split('T')[0],
-        dayOfWeek: ['日', '月', '火', '水', '木', '金', '土'][today.getDay()],
-        restaurantId: currentSelection.id,
-        restaurantName: currentSelection.name,
-        genre: currentSelection.genre
-    };
+    // 履歴を考慮しない（お一人様）モードの確認
+    const ignoreHistory = document.getElementById('ignore-history-filter').checked;
     
-    weeklyHistory.push(historyEntry);
-    await saveHistory();
-    
-    // UI更新
-    updateWeeklyStatus();
-    alert(`${currentSelection.name} に決定しました！楽しいランチタイムを！`);
+    if (!ignoreHistory) {
+        // 履歴に追加
+        const today = new Date();
+        const historyEntry = {
+            date: today.toISOString().split('T')[0],
+            dayOfWeek: ['日', '月', '火', '水', '木', '金', '土'][today.getDay()],
+            restaurantId: currentSelection.id,
+            restaurantName: currentSelection.name,
+            genre: currentSelection.genre
+        };
+        
+        weeklyHistory.push(historyEntry);
+        await saveHistory();
+        
+        // UI更新
+        updateWeeklyStatus();
+        alert(`${currentSelection.name} に決定しました！楽しいランチタイムを！`);
+    } else {
+        // お一人様モードの場合は履歴に保存しない
+        alert(`${currentSelection.name} に決定しました！（お一人様モード：履歴に保存されません）`);
+    }
     
     // 初期状態に戻る
     retrySelection();

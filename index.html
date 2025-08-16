@@ -48,6 +48,20 @@
                         4人以上入れる店舗に限定
                     </label>
                 </div>
+                <div class="condition-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="no-ramen-filter" checked>
+                        <span class="checkmark"></span>
+                        ラーメン禁止（ラーメンを除外）
+                    </label>
+                </div>
+                <div class="condition-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="ignore-history-filter">
+                        <span class="checkmark"></span>
+                        履歴を考慮しない（お一人様の時ON）
+                    </label>
+                </div>
                 <button id="decide-btn" class="primary-btn">ランチを決める！</button>
             </section>
 
@@ -59,7 +73,9 @@
                     <div class="restaurant-details">
                         <p class="genre">🏷️ ジャンル: <span id="restaurant-genre"></span></p>
                         <p class="rating">⭐ 評価: <span id="restaurant-rating"></span></p>
-                        <p class="notes">💡 補足: <span id="restaurant-notes"></span></p>
+                        <p class="memo" id="memo-section" style="display: none;">📝 メモ: <span id="restaurant-memo"></span></p>
+                        <p class="location" id="location-section" style="display: none;">📍 場所: <span id="restaurant-location"></span></p>
+                        <p class="url" id="url-section" style="display: none;">🔗 URL: <a id="restaurant-url" href="#" target="_blank" rel="noopener">リンクを開く</a></p>
                         <div class="conditions">
                             <span id="nearby-status" class="status-badge"></span>
                             <span id="capacity-status" class="status-badge"></span>
