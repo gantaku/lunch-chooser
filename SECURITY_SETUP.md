@@ -1,8 +1,9 @@
 # セキュリティ設定手順
 
-## ⚠️ 重要：APIキーの設定
+## ⚠️ 重要：GitHub Actions環境でのセキュア設定
 
-このプロジェクトを使用する前に、必ず以下の手順でAPIキーを設定してください。
+このプロジェクトはGitHub ActionsとGitHub Pagesを使用してセキュアにデプロイされます。
+APIキーは**環境変数として管理**され、ソースコードには含まれません。
 
 ### 1. Google Cloud Console でのAPIキー作成
 
@@ -11,23 +12,38 @@
 3. Google Sheets API を有効化
 4. 「APIs & Services」→「認証情報」でAPIキーを作成
 5. **重要**: APIキーに以下の制限を設定：
-   - **HTTPリファラー制限**: あなたのドメインのみ許可
+   - **HTTPリファラー制限**: `https://ganta9.github.io/*` を許可
    - **API制限**: Google Sheets API のみ許可
 
-### 2. 設定ファイルの作成
+### 2. GitHub Repository Secretsの設定
+
+**本番環境（推奨）**:
+
+1. GitHubリポジトリにアクセス: https://github.com/ganta9/lunch-chooser
+2. Settings → Secrets and variables → Actions
+3. 「New repository secret」で以下を追加：
+
+| Secret Name | 値の例 | 説明 |
+|-------------|--------|------|
+| `GOOGLE_SHEETS_API_KEY` | `AIzaSyD...` | Google Sheets APIキー |
+| `GOOGLE_SPREADSHEET_ID` | `18tNpNwW...` | スプレッドシートID |
+| `GOOGLE_APPS_SCRIPT_URL` | `https://script.google.com/...` | Apps Script WebアプリURL |
+
+### 3. ローカル開発環境（オプション）
+
+ローカル開発時のみ、以下の手順で設定：
 
 ```bash
 # テンプレートファイルをコピー
 cp config.js.template config.js
 ```
 
-### 3. config.js ファイルの編集
-
+config.jsファイルを編集：
 ```javascript
-// config.js
-window.GOOGLE_SHEETS_API_KEY = '新しく作成したAPIキー';
-window.GOOGLE_SPREADSHEET_ID = 'あなたのスプレッドシートID';
-window.GOOGLE_APPS_SCRIPT_URL = 'あなたのApps Script URL';
+// config.js （ローカル開発用のみ）
+window.GOOGLE_SHEETS_API_KEY = '開発用APIキー';
+window.GOOGLE_SPREADSHEET_ID = 'スプレッドシートID';
+window.GOOGLE_APPS_SCRIPT_URL = 'Apps Script URL';
 ```
 
 ### 4. スプレッドシートのセキュリティ設定
