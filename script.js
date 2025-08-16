@@ -258,6 +258,16 @@ function initializeUI() {
 
 // ランチ決定メイン処理
 function decideLunch() {
+    // 共有履歴同期失敗時の警告確認
+    if (isSharedHistoryFailed) {
+        const confirmMessage = '⚠️ 共有履歴との同期に失敗しています。\n' +
+                              'チーム内で重複選択の可能性があります。\n' +
+                              'それでもランチを決定しますか？';
+        if (!confirm(confirmMessage)) {
+            return; // ユーザーがキャンセルした場合は処理を中止
+        }
+    }
+    
     // 条件を取得
     const nearbyOnly = document.getElementById('nearby-filter').checked;
     const capacityOnly = document.getElementById('capacity-filter').checked;
@@ -509,7 +519,8 @@ async function loadHistory() {
             const savedHistory = localStorage.getItem('lunchHistory');
             if (savedHistory) {
                 weeklyHistory = JSON.parse(savedHistory);
-                console.log('ローカルストレージから読み込み完了:', weeklyHistory.length, '件');
+                console.warn('⚠️ 共有履歴読み込み失敗のため、ローカルデータを使用:', weeklyHistory.length, '件');
+                showSyncWarning();
             }
         }
     }
@@ -521,14 +532,14 @@ async function loadFromSharedHistory() {
         const callbackName = 'loadHistoryCallback_' + Date.now();
         const url = `${GOOGLE_APPS_SCRIPT_URL}?action=getHistory&callback=${callbackName}`;
         
-        // 5秒タイムアウト設定
+        // 30秒タイムアウト設定（Google Apps Scriptの応答を確実に待つ）
         const timeout = setTimeout(() => {
             if (script && script.parentNode) {
                 document.head.removeChild(script);
             }
             delete window[callbackName];
-            reject(new Error('共有履歴読み込みタイムアウト (5秒)'));
-        }, 5000);
+            reject(new Error('共有履歴読み込みタイムアウト (30秒)'));
+        }, 30000);
         
         // グローバルコールバック関数を作成
         window[callbackName] = function(result) {
@@ -552,6 +563,9 @@ async function loadFromSharedHistory() {
                 
                 // ローカルストレージも共有履歴で更新（同期）
                 localStorage.setItem('lunchHistory', JSON.stringify(weeklyHistory));
+                
+                // 同期成功時は警告を非表示
+                hideSyncWarning();
                 resolve();
             } catch (error) {
                 reject(error);
@@ -670,6 +684,28 @@ function hideLoadingStatus() {
     const statusElement = document.getElementById('loading-status');
     if (statusElement) {
         statusElement.style.display = 'none';
+    }
+}
+
+// 同期警告表示
+let isSharedHistoryFailed = false;
+
+function showSyncWarning() {
+    isSharedHistoryFailed = true;
+    const warningElement = document.getElementById('sync-warning');
+    if (warningElement) {
+        warningElement.style.display = 'block';
+    } else {
+        // 警告要素が存在しない場合はコンソールで警告
+        console.warn('⚠️ 共有履歴との同期に失敗しています。チーム間での重複選択の可能性があります。');
+    }
+}
+
+function hideSyncWarning() {
+    isSharedHistoryFailed = false;
+    const warningElement = document.getElementById('sync-warning');
+    if (warningElement) {
+        warningElement.style.display = 'none';
     }
 }
 
