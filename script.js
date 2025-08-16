@@ -254,10 +254,6 @@ function initializeUI() {
         });
     }
     
-    // 履歴リセットボタン
-    const resetBtn = document.getElementById('reset-history-btn');
-    if (resetBtn) resetBtn.addEventListener('click', resetHistory);
-    
     // 新規開拓ボタン
     const nearbyMapBtn = document.getElementById('nearby-map-btn');
     if (nearbyMapBtn) {
@@ -714,16 +710,6 @@ async function saveToSharedHistory() {
 // 設定保存
 function saveSettings() {
     localStorage.setItem('lunchSettings', JSON.stringify(settings));
-}
-
-// 履歴リセット
-async function resetHistory() {
-    if (confirm('履歴をリセットしますか？この操作は取り消せません。\n\n注意: 共有履歴は削除されず、ローカルの履歴のみがリセットされます。')) {
-        weeklyHistory = [];
-        localStorage.setItem('lunchHistory', JSON.stringify(weeklyHistory));
-        updateWeeklyStatus();
-        alert('ローカル履歴をリセットしました。\n\n共有履歴を確認するにはページを再読み込みしてください。');
-    }
 }
 
 // 共有履歴状態の確認（デバッグ用）
