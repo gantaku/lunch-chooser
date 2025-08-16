@@ -453,30 +453,3 @@ section {
     line-height: 1.4;
 }
 
-/* かっこいい設定区切り線 */
-.setting-divider {
-    margin: 30px 0;
-    text-align: center;
-    position: relative;
-}
-
-.setting-divider::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #667eea, #764ba2, #667eea, transparent);
-    transform: translateY(-50%);
-}
-
-.divider-text {
-    background: white;
-    padding: 0 20px;
-    font-weight: bold;
-    color: #667eea;
-    font-size: 1.1em;
-    position: relative;
-    z-index: 1;
-}
