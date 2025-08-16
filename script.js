@@ -457,11 +457,11 @@ function displayResult(restaurant) {
     }
 }
 
-// やり直し処理
+// やり直し処理（同じ条件で別のお店を選択）
 function retrySelection() {
-    document.getElementById('condition-section').style.display = 'block';
-    document.getElementById('result-section').classList.add('hidden');
+    // 条件選択画面には戻らず、同じ条件で再実行
     currentSelection = null;
+    decideLunch(); // 同じ条件で再度ランチを決定
 }
 
 // 選択確定処理
@@ -493,8 +493,10 @@ async function confirmSelection() {
         alert(`${currentSelection.name} に決定しました！（お一人様モード：履歴に保存されません）`);
     }
     
-    // 初期状態に戻る
-    retrySelection();
+    // 条件選択画面に戻る
+    document.getElementById('condition-section').style.display = 'block';
+    document.getElementById('result-section').classList.add('hidden');
+    currentSelection = null;
 }
 
 // 今週の利用状況更新
