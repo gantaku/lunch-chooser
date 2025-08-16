@@ -86,9 +86,8 @@ function addHistoryEntry(historyData) {
     let historySheet;
     
     // Sheet2を取得または作成
-    try {
-      historySheet = spreadsheet.getSheetByName(HISTORY_SHEET_NAME);
-    } catch (error) {
+    historySheet = spreadsheet.getSheetByName(HISTORY_SHEET_NAME);
+    if (!historySheet) {
       historySheet = spreadsheet.insertSheet(HISTORY_SHEET_NAME);
       historySheet.getRange(1, 1, 1, 4).setValues([['日付', '曜日', '店名', 'ジャンル']]);
     }
@@ -124,9 +123,8 @@ function getHistoryData() {
     const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
     let historySheet;
     
-    try {
-      historySheet = spreadsheet.getSheetByName(HISTORY_SHEET_NAME);
-    } catch (error) {
+    historySheet = spreadsheet.getSheetByName(HISTORY_SHEET_NAME);
+    if (!historySheet) {
       return JSON.stringify({success: true, data: []});
     }
     
