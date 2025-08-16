@@ -72,6 +72,7 @@ const FALLBACK_RESTAURANT_DATA = {
 let restaurants = [];
 let weeklyHistory = [];
 let currentSelection = null;
+let isLoading = false; // ローディング状態管理
 let settings = {
     ratingWeight: 1.5,
     newDiscoveryRating: 1.5 // 新規開拓の確率調整（1.0=低確率、3.0=普通、5.0=高確率）
@@ -282,6 +283,12 @@ function initializeUI() {
 
 // ランチ決定メイン処理
 function decideLunch() {
+    // ローディング中は処理しない
+    if (isLoading) {
+        alert('データ読み込み中です。しばらくお待ちください。');
+        return;
+    }
+    
     // 条件を取得
     const nearbyOnly = document.getElementById('nearby-filter').checked;
     const capacityOnly = document.getElementById('capacity-filter').checked;
@@ -731,19 +738,38 @@ function checkSharedHistoryStatus() {
 
 // ローディング表示
 function showLoadingStatus(message) {
+    isLoading = true;
     const statusElement = document.getElementById('loading-status');
     if (statusElement) {
-        statusElement.textContent = message;
-        statusElement.style.display = 'block';
+        const textElement = statusElement.querySelector('.loading-text');
+        if (textElement) {
+            textElement.textContent = message;
+        }
+        statusElement.style.display = 'flex';
     } else {
         console.log('🔄', message);
+    }
+    
+    // ボタンを無効化
+    const decideBtn = document.getElementById('decide-btn');
+    if (decideBtn) {
+        decideBtn.disabled = true;
+        decideBtn.textContent = '読み込み中...';
     }
 }
 
 function hideLoadingStatus() {
+    isLoading = false;
     const statusElement = document.getElementById('loading-status');
     if (statusElement) {
         statusElement.style.display = 'none';
+    }
+    
+    // ボタンを有効化
+    const decideBtn = document.getElementById('decide-btn');
+    if (decideBtn) {
+        decideBtn.disabled = false;
+        decideBtn.textContent = 'ランチを決める！';
     }
 }
 

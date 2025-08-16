@@ -27,8 +27,12 @@
         <main>
             <!-- 条件選択エリア -->
             <section id="condition-section">
-                <div id="loading-status" style="display: none; text-align: center; margin: 20px 0; color: #666; font-weight: bold;">
-                    🔄 データを読み込み中...
+                <div id="loading-status" class="loading-overlay" style="display: none;">
+                    <div class="loading-content">
+                        <div class="loading-spinner"></div>
+                        <p class="loading-text">📊 データを読み込み中...</p>
+                        <p class="loading-subtext">しばらくお待ちください</p>
+                    </div>
                 </div>
                 <div id="sync-warning" style="display: none; text-align: center; margin: 15px 0; padding: 10px; background-color: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; color: #856404;">
                     ⚠️ 共有履歴との同期に失敗しました。チーム間での重複選択の可能性があります。

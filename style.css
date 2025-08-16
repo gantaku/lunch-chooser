@@ -159,6 +159,14 @@ button {
     padding: 20px;
 }
 
+#decide-btn:disabled {
+    background: #cccccc !important;
+    color: #666666 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
 /* 結果表示 */
 .result-card {
     background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
@@ -320,7 +328,58 @@ section {
     animation: slideIn 0.5s ease-out;
 }
 
-/* ローディングアニメーション */
+/* ローディングオーバーレイ */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loading-content {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease-out;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+.loading-text {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 10px 0;
+}
+
+.loading-subtext {
+    color: #666;
+    margin: 0;
+    font-size: 0.9em;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 旧ローディング（後方互換性） */
 .loading {
     display: inline-block;
     width: 20px;
@@ -329,11 +388,6 @@ section {
     border-top: 3px solid #333;
     border-radius: 50%;
     animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
 }
 
 /* 新規開拓専用スタイル */
