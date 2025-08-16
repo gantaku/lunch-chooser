@@ -1,116 +1,177 @@
-# Lunch Decider
+# 🍽️ Lunch Chooser
 
 チームのランチ場所を効率的に決定するWebアプリケーション
 
+## 🌐 公開サイト
+
+**URL**: https://ganta9.github.io/lunch-chooser/
+
 ## 概要
 
-Lunch Deciderは、チームメンバーがWebブラウザを通じて昼食場所を決定できるアプリケーションです。事前に設定された店舗情報から、条件に基づいて重み付けランダム選択し、週次でジャンルの重複を避ける機能を提供します。
+Lunch Chooserは、チームメンバーがWebブラウザを通じて昼食場所を決定できるアプリケーションです。Google Sheetsと連携し、条件に基づいて重み付けランダム選択し、週次でジャンルの重複を避ける機能を提供します。
 
-## 🌐 アクセス
-
-**URL**: https://ganta9.github.io/lunch-decider
-
-## 主な機能
+## 🚀 主な機能
 
 - 🎯 **条件ベース選択**: 近場・人数条件での絞り込み
 - ⭐ **重み付け選択**: 星評価による重み付けランダム選択
 - 📅 **週次ジャンル管理**: 月〜金で同ジャンル重複を防止
 - 🔄 **やり直し機能**: 選択結果の確認・やり直し
 - 🆕 **新規開拓**: 新しいお店の開拓オプション
-- 💾 **履歴管理**: ローカルストレージで永続保存
+- 📊 **Google Sheets連携**: リアルタイムデータ更新
+- 💾 **履歴管理**: 共有履歴とローカルストレージ
+- 🔒 **セキュア**: 環境変数による機密情報管理
 
-## 使い方
+## 📖 使い方
 
-1. WebブラウザでURLにアクセス
+1. Webブラウザで公開サイトにアクセス
 2. 条件を選択（近場・4人以上の制限）
 3. 「ランチを決める！」ボタンをクリック
 4. 結果を確認後、やり直しまたは確定
 5. 確定後、履歴に記録される
 
-## データ構造
-
-### 店舗データ
-- **店名**: レストラン名
-- **ジャンル**: 料理の種類
-- **近場かどうか**: boolean
-- **4人以上入れるか**: boolean  
-- **星の数**: 複数人評価（1-5）
-
-## プロジェクト構造
+## 🏗️ プロジェクト構造
 
 ```
-lunch-decider/
-├── index.html          # メインページ
-├── style.css           # スタイルシート  
-├── script.js           # アプリロジック（データ含む）
-├── data/               # 参考用データ
-├── docs/               # ドキュメント
-│   ├── spec.md        # 要件・仕様書
-│   └── fails.md       # 失敗事例・バグ記録
-├── README.md          # このファイル
-└── .gitignore         # Git除外設定
+lunch-chooser/
+├── 📄 設定・ドキュメント
+│   ├── README.md              # このファイル
+│   ├── DEPLOY.md              # デプロイ手順
+│   ├── SECURITY_SETUP.md      # セキュリティ設定
+│   ├── .gitignore            # Git除外設定
+│   ├── config.js.template    # 設定テンプレート
+│   └── .env.template         # 環境変数テンプレート
+│
+├── 🌐 Webアプリケーション
+│   ├── index.html            # メインページ
+│   ├── style.css             # スタイルシート
+│   ├── script.js             # アプリロジック
+│   └── config.js             # 設定ファイル（Git除外）
+│
+├── 📊 データ・ドキュメント
+│   ├── data/
+│   │   └── restaurants.json  # 参考用店舗データ
+│   ├── docs/
+│   │   ├── spec.md           # 要件・仕様書
+│   │   ├── fails.md          # 失敗事例・バグ記録
+│   │   └── google-apps-script-setup.md
+│   └── google-apps-script.js # Google Apps Script
+│
+├── 🚀 CI/CD
+│   ├── .github/workflows/
+│   │   └── deploy.yml        # GitHub Actions
+│   └── build.sh              # ビルドスクリプト
+│
+└── 🧪 テスト（予定）
+    └── test/
 ```
 
-## 開発状況
+## 🛠️ 技術仕様
 
-### Phase 1: 基本実装 ✅
+### フロントエンド
+- **HTML5** + **CSS3** + **ES6 JavaScript**
+- **レスポンシブデザイン**（PC・スマートフォン対応）
+- **Progressive Web App** 対応
+
+### バックエンド・データ管理
+- **Google Sheets API** - 店舗データ管理
+- **Google Apps Script** - サーバーサイド処理
+- **ローカルストレージ** - クライアント履歴管理
+
+### デプロイ・CI/CD
+- **GitHub Actions** - 自動ビルド・デプロイ
+- **GitHub Pages** - 静的サイトホスティング
+- **環境変数管理** - GitHub Secrets
+
+### セキュリティ
+- **APIキー** - 環境変数で管理
+- **CORS対応** - クロスオリジン制御
+- **機密情報除外** - .gitignore設定
+
+## 📋 開発状況
+
+### ✅ Phase 1: 基本実装（完了）
 - [x] HTML/CSS/JavaScript実装
 - [x] 条件フィルタリング機能
 - [x] 重み付けランダム選択
 - [x] やり直し・確定機能
 
-### Phase 2: 履歴管理 ✅
+### ✅ Phase 2: 履歴管理（完了）
 - [x] ローカルストレージ履歴管理
 - [x] 週次ジャンル重複チェック
 - [x] 今週利用状況表示
 
-### Phase 3: 高度な機能 ✅
+### ✅ Phase 3: 高度な機能（完了）
 - [x] 星評価による重み付け
 - [x] 新規開拓選択肢
 - [x] 設定調整機能
 - [x] レスポンシブデザイン
 
-### Phase 4: デプロイ ✅
-- [x] GitHub Pages公開
-- [x] ドキュメント整備
+### ✅ Phase 4: Google Sheets連携（完了）
+- [x] Google Sheets API統合
+- [x] リアルタイムデータ取得
+- [x] Google Apps Script連携
 
-## 技術仕様
+### ✅ Phase 5: セキュリティ強化（完了）
+- [x] APIキー環境変数化
+- [x] GitHub Actions CI/CD
+- [x] セキュアなデプロイメント
 
-- **フロントエンド**: HTML + CSS + JavaScript
-- **データ管理**: JavaScript内定義 + ローカルストレージ
-- **デプロイ**: GitHub Pages（無料）
-- **対応デバイス**: PC・スマートフォン
+### 🔄 Phase 6: 最適化（進行中）
+- [ ] config.js生成問題の完全解決
+- [ ] パフォーマンス最適化
+- [ ] エラーハンドリング強化
 
-## 制約事項
+## 🔧 開発・デプロイ
 
-- 週の単位は月曜日開始
-- 同一ジャンルは週1回まで選択可能
-- ローカルストレージ使用（ブラウザ依存）
-- JavaScript有効が必須
+### ローカル開発
+```bash
+# リポジトリクローン
+git clone https://github.com/ganta9/lunch-chooser.git
+cd lunch-chooser
 
-## ドキュメント
+# 設定ファイル作成
+cp config.js.template config.js
+# config.js を編集して実際の値を設定
 
-- [要件・仕様書](docs/spec.md)
-- [失敗事例・バグ記録](docs/fails.md)
+# ローカルサーバー起動
+python3 -m http.server 8000
+```
 
-## ライセンス
+### 本番デプロイ
+詳細は [DEPLOY.md](DEPLOY.md) を参照
 
-MIT License
+## 📚 ドキュメント
 
-## 店舗データの更新方法
+- 📖 [デプロイ手順](DEPLOY.md)
+- 🔒 [セキュリティ設定](SECURITY_SETUP.md)
+- 📋 [要件・仕様書](docs/spec.md)
+- 🚨 [失敗事例・バグ記録](docs/fails.md)
+- 🔧 [Google Apps Script設定](docs/google-apps-script-setup.md)
 
-1. GitHubリポジトリの `script.js` をブラウザで編集
-2. `RESTAURANT_DATA` 内の店舗情報を追加・修正
-3. 変更をコミット・プッシュ
-4. 自動的にWebサイトに反映
+## 🐛 サポート・貢献
 
-## サポート
+- **バグ報告**: [GitHub Issues](https://github.com/ganta9/lunch-chooser/issues)
+- **機能要望**: GitHub Issues で提案
+- **セキュリティ問題**: リポジトリメンテナーに直接連絡
 
-- バグ報告: [GitHub Issues](https://github.com/ganta9/lunch-decider/issues)
-- 機能要望: GitHubリポジトリで提案
+## 📄 ライセンス
+
+MIT License - 詳細は [LICENSE](LICENSE) ファイルを参照
+
+## 🔒 セキュリティ
+
+このプロジェクトは以下のセキュリティ対策を実装しています：
+
+- ✅ APIキーの環境変数管理
+- ✅ 機密情報のGit除外
+- ✅ GitHub Actionsでの自動デプロイ
+- ✅ CORS対応とAPI制限
+
+セキュリティ問題を発見した場合は、公開せずにメンテナーに直接報告してください。
 
 ---
 
 **作成日**: 2024-08-15  
-**バージョン**: 2.0（Webアプリ版）  
-**開発者**: Claude Code Team
+**最終更新**: 2025-08-16  
+**バージョン**: 3.0（セキュア版）  
+**開発**: Claude Code Team
