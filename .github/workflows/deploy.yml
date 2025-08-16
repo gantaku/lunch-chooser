@@ -27,30 +27,39 @@ jobs:
       uses: actions/configure-pages@v4
       
     - name: Generate config.js from environment variables
+      env:
+        API_KEY: ${{ secrets.GOOGLE_SHEETS_API_KEY }}
+        SPREADSHEET_ID: ${{ secrets.GOOGLE_SPREADSHEET_ID }}
+        APPS_SCRIPT_URL: ${{ secrets.GOOGLE_APPS_SCRIPT_URL }}
       run: |
         echo "Generating config.js..."
-        cat > config.js << 'EOF'
-        // Google Sheets API設定 - GitHub Actions環境変数から生成
-        // 注意: このファイルはCI/CDで動的に生成されます
-        
-        window.GOOGLE_SHEETS_API_KEY = '${{ secrets.GOOGLE_SHEETS_API_KEY }}';
-        window.GOOGLE_SPREADSHEET_ID = '${{ secrets.GOOGLE_SPREADSHEET_ID }}';
-        window.GOOGLE_APPS_SCRIPT_URL = '${{ secrets.GOOGLE_APPS_SCRIPT_URL }}';
-        
-        // デプロイ情報
-        window.DEPLOY_TIMESTAMP = new Date().toISOString();
-        window.DEPLOY_COMMIT = '${{ github.sha }}';
-        console.log('Config loaded successfully');
-        EOF
+        echo "// Google Sheets API設定 - GitHub Actions環境変数から生成" > config.js
+        echo "// 注意: このファイルはCI/CDで動的に生成されます" >> config.js
+        echo "" >> config.js
+        echo "window.GOOGLE_SHEETS_API_KEY = '${API_KEY}';" >> config.js
+        echo "window.GOOGLE_SPREADSHEET_ID = '${SPREADSHEET_ID}';" >> config.js
+        echo "window.GOOGLE_APPS_SCRIPT_URL = '${APPS_SCRIPT_URL}';" >> config.js
+        echo "" >> config.js
+        echo "// デプロイ情報" >> config.js
+        echo "window.DEPLOY_TIMESTAMP = '$(date -u +"%Y-%m-%d %H:%M:%S UTC")';" >> config.js
+        echo "window.DEPLOY_COMMIT = '${{ github.sha }}';" >> config.js
+        echo "console.log('Config loaded successfully from GitHub Actions');" >> config.js
+        echo "" >> config.js
         echo "Config.js generated successfully"
         ls -la config.js
         echo "Content preview:"
-        head -5 config.js
+        cat config.js
         
     - name: Verify config.js was created
       run: |
         echo "Generated config.js:"
-        head -10 config.js
+        cat config.js
+        echo ""
+        echo "Files in current directory:"
+        ls -la
+        echo ""
+        echo "Files that will be uploaded:"
+        find . -name "*.js" -o -name "*.html" -o -name "*.css" | head -20
         
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
