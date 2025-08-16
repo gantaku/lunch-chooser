@@ -256,6 +256,28 @@ function initializeUI() {
     // 履歴リセットボタン
     const resetBtn = document.getElementById('reset-history-btn');
     if (resetBtn) resetBtn.addEventListener('click', resetHistory);
+    
+    // 新規開拓ボタン
+    const nearbyMapBtn = document.getElementById('nearby-map-btn');
+    if (nearbyMapBtn) {
+        nearbyMapBtn.addEventListener('click', function() {
+            window.open('https://www.google.co.jp/maps/place/BIZCORE%E5%BE%A1%E8%8C%B6%EF%BE%89%E6%B0%B4/@35.7001719,139.765708,17z/data=!3m2!4b1!5s0x60188c1edb357c91:0xbd81b91a9427b63c!4m6!3m5!1s0x60188d533d6dcd57:0x91336494e76ae30f!8m2!3d35.7001719!4d139.7682829!16s%2Fg%2F11l23qdjxg?entry=ttu&g_ep=EgoyMDI1MDgxMy4wIKXMDSoASAFQAw%3D%3D', '_blank');
+        });
+    }
+    
+    const akihabaraBtn = document.getElementById('akihabara-btn');
+    if (akihabaraBtn) {
+        akihabaraBtn.addEventListener('click', function() {
+            window.open('https://tabelog.com/tokyo/A1310/A131001/R173/rstLst/lunch/', '_blank');
+        });
+    }
+    
+    const ochanomizuBtn = document.getElementById('ochanomizu-btn');
+    if (ochanomizuBtn) {
+        ochanomizuBtn.addEventListener('click', function() {
+            window.open('https://tabelog.com/tokyo/A1310/A131002/R2080/rstLst/lunch/', '_blank');
+        });
+    }
 }
 
 // ランチ決定メイン処理
@@ -402,17 +424,14 @@ function displayResult(restaurant) {
     document.getElementById('restaurant-genre').textContent = restaurant.genre;
     
     if (restaurant.id === 'new-discovery') {
-        document.getElementById('restaurant-rating').textContent = '新しい発見へ！';
-        
-        // 新規開拓の場合も補足表示
-        const notesElement = document.getElementById('restaurant-notes');
-        const notesContainer = notesElement.parentElement;
-        notesElement.textContent = '未知のお店を開拓しましょう！';
-        notesContainer.style.display = 'block';
-        
-        document.getElementById('nearby-status').textContent = '📍 新規開拓';
-        document.getElementById('capacity-status').textContent = '🆕 冒険タイム';
+        // 通常の店舗詳細を非表示にし、新規開拓専用表示を表示
+        document.getElementById('normal-restaurant-details').style.display = 'none';
+        document.getElementById('new-discovery-details').style.display = 'block';
     } else {
+        // 新規開拓表示を非表示にし、通常の店舗詳細を表示
+        document.getElementById('new-discovery-details').style.display = 'none';
+        document.getElementById('normal-restaurant-details').style.display = 'block';
+        
         const avgRating = calculateAverageRating(restaurant);
         const ratingCount = restaurant.ratings ? restaurant.ratings.length : 0;
         document.getElementById('restaurant-rating').textContent = 

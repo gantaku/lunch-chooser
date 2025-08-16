@@ -70,7 +70,7 @@
                 <h2>🎯 今日のランチは...</h2>
                 <div id="result-card" class="result-card">
                     <h3 id="restaurant-name"></h3>
-                    <div class="restaurant-details">
+                    <div id="normal-restaurant-details" class="restaurant-details">
                         <p class="genre">🏷️ ジャンル: <span id="restaurant-genre"></span></p>
                         <p class="rating">⭐ 評価: <span id="restaurant-rating"></span></p>
                         <p class="memo" id="memo-section" style="display: none;">📝 メモ: <span id="restaurant-memo"></span></p>
@@ -79,6 +79,14 @@
                         <div class="conditions">
                             <span id="nearby-status" class="status-badge"></span>
                             <span id="capacity-status" class="status-badge"></span>
+                        </div>
+                    </div>
+                    <div id="new-discovery-details" class="restaurant-details" style="display: none;">
+                        <p class="discovery-message">🎯 新しいお店を探しに行きましょう！</p>
+                        <div class="discovery-buttons">
+                            <button id="nearby-map-btn" class="discovery-btn">📍 近隣のマップから探す</button>
+                            <button id="akihabara-btn" class="discovery-btn">🚃 秋葉原駅周辺で探す</button>
+                            <button id="ochanomizu-btn" class="discovery-btn">🍵 お茶の水駅周辺で探す</button>
                         </div>
                     </div>
                 </div>

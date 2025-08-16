@@ -335,3 +335,43 @@ section {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+/* 新規開拓専用スタイル */
+.discovery-message {
+    font-size: 1.2em;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.discovery-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.discovery-btn {
+    background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 10px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    width: 100%;
+    max-width: 300px;
+}
+
+.discovery-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+    background: linear-gradient(45deg, #FF5252, #26C6DA);
+}
+
+.discovery-btn:active {
+    transform: translateY(0);
+}
