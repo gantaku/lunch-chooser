@@ -78,10 +78,64 @@ function doGet(e) {
 }
 
 /**
+ * 入力データの検証
+ */
+function validateHistoryData(data) {
+  // 必須フィールドの確認
+  if (!data || typeof data !== 'object') {
+    throw new Error('Invalid data object');
+  }
+  
+  // 日付の検証
+  if (!data.date || !/^\d{4}-\d{2}-\d{2}$/.test(data.date)) {
+    throw new Error('Invalid date format. Expected YYYY-MM-DD');
+  }
+  
+  // 曜日の検証
+  const validDays = ['月', '火', '水', '木', '金', '土', '日'];
+  if (!data.dayOfWeek || !validDays.includes(data.dayOfWeek)) {
+    throw new Error('Invalid day of week');
+  }
+  
+  // レストラン名の検証
+  if (!data.restaurantName || typeof data.restaurantName !== 'string') {
+    throw new Error('Restaurant name is required');
+  }
+  if (data.restaurantName.length > 100) {
+    throw new Error('Restaurant name too long (max 100 characters)');
+  }
+  
+  // ジャンルの検証
+  if (!data.genre || typeof data.genre !== 'string') {
+    throw new Error('Genre is required');
+  }
+  if (data.genre.length > 50) {
+    throw new Error('Genre name too long (max 50 characters)');
+  }
+  
+  // 危険な文字列の検出
+  const dangerousPatterns = [/<script/i, /javascript:/i, /on\w+=/i];
+  const fields = [data.restaurantName, data.genre];
+  
+  for (const field of fields) {
+    for (const pattern of dangerousPatterns) {
+      if (pattern.test(field)) {
+        throw new Error('Potentially dangerous content detected');
+      }
+    }
+  }
+  
+  return true;
+}
+
+/**
  * 履歴エントリを追加
  */
 function addHistoryEntry(historyData) {
   try {
+    // 入力データの検証
+    validateHistoryData(historyData);
+    
     const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
     let historySheet;
     
@@ -158,10 +212,13 @@ function createCORSResponse(content) {
     .createTextOutput(content)
     .setMimeType(ContentService.MimeType.JSON)
     .setHeaders({
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': 'https://ganta9.github.io',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-      'Access-Control-Max-Age': '3600'
+      'Access-Control-Max-Age': '3600',
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
+      'X-XSS-Protection': '1; mode=block'
     });
 }
 
