@@ -543,23 +543,15 @@ async function loadFromSharedHistory() {
                     return;
                 }
                 
-                // データを統合（共有履歴とローカル履歴をマージ）
+                // 共有履歴を優先使用（ローカル履歴は無視）
                 const sharedHistory = result.data || [];
-                const localHistory = JSON.parse(localStorage.getItem('lunchHistory') || '[]');
+                console.log('共有履歴データ:', sharedHistory);
                 
-                // 重複排除しながらマージ
-                const mergedHistory = [...sharedHistory];
-                localHistory.forEach(localEntry => {
-                    const exists = sharedHistory.some(sharedEntry => 
-                        sharedEntry.date === localEntry.date && 
-                        sharedEntry.restaurantName === localEntry.restaurantName
-                    );
-                    if (!exists) {
-                        mergedHistory.push(localEntry);
-                    }
-                });
+                // 共有履歴のみを使用（古いローカルデータを無視）
+                weeklyHistory = sharedHistory.sort((a, b) => new Date(a.date) - new Date(b.date));
                 
-                weeklyHistory = mergedHistory.sort((a, b) => new Date(a.date) - new Date(b.date));
+                // ローカルストレージも共有履歴で更新（同期）
+                localStorage.setItem('lunchHistory', JSON.stringify(weeklyHistory));
                 resolve();
             } catch (error) {
                 reject(error);
