@@ -74,8 +74,8 @@ let weeklyHistory = [];
 let currentSelection = null;
 let isLoading = false; // ローディング状態管理
 let settings = {
-    ratingWeight: 1.5,
-    newDiscoveryRating: 1.5 // 新規開拓の確率調整（1.0=低確率、3.0=普通、5.0=高確率）
+    ratingWeight: 2.0,
+    newDiscoveryRating: 3.0 // 新規開拓の星評価（1.0-5.0⭐）
 };
 
 // DOMが読み込まれたら初期化
