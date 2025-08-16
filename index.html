@@ -119,16 +119,30 @@
                 <details>
                     <summary>⚙️ 設定</summary>
                     <div class="settings-content">
-                        <label>
-                            星評価重み係数: 
-                            <input type="range" id="rating-weight" min="1" max="3" step="0.1" value="1.5">
-                            <span id="rating-weight-value">1.5</span>
-                        </label>
-                        <label>
-                            新規開拓の確率: 
-                            <input type="range" id="new-discovery-rating" min="0.5" max="5" step="0.1" value="1.5">
-                            <span id="new-discovery-rating-value">1.5</span>
-                        </label>
+                        <div class="setting-item">
+                            <label>
+                                星評価重み係数: 
+                                <input type="range" id="rating-weight" min="1" max="3" step="0.1" value="1.5">
+                                <span id="rating-weight-value">1.5</span>
+                            </label>
+                            <p class="setting-description">
+                                高評価のお店がどれくらい選ばれやすくなるかを調整します<br>
+                                1.0 = 評価に関係なく平等　1.5 = やや高評価優先　3.0 = 高評価大幅優先
+                            </p>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label>
+                                新規開拓の星評価: 
+                                <input type="range" id="new-discovery-rating" min="1" max="5" step="0.5" value="1.5">
+                                <span id="new-discovery-rating-value">1.5</span> ⭐
+                            </label>
+                            <p class="setting-description">
+                                新規開拓を何星のお店として扱うかを設定します<br>
+                                1.0⭐ = 選ばれにくい　3.0⭐ = 普通　5.0⭐ = 選ばれやすい
+                            </p>
+                        </div>
+                        
                         <button id="reset-history-btn" class="danger-btn">履歴をリセット</button>
                     </div>
                 </details>
