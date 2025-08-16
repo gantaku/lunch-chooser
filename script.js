@@ -523,7 +523,9 @@ async function loadFromSharedHistory() {
         
         // 5秒タイムアウト設定
         const timeout = setTimeout(() => {
-            document.head.removeChild(script);
+            if (script && script.parentNode) {
+                document.head.removeChild(script);
+            }
             delete window[callbackName];
             reject(new Error('共有履歴読み込みタイムアウト (5秒)'));
         }, 5000);
@@ -568,7 +570,10 @@ async function loadFromSharedHistory() {
         const script = document.createElement('script');
         script.src = url;
         script.onerror = () => {
-            document.head.removeChild(script);
+            clearTimeout(timeout);
+            if (script && script.parentNode) {
+                document.head.removeChild(script);
+            }
             delete window[callbackName];
             reject(new Error('JSONP request failed'));
         };
