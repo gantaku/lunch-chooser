@@ -2,6 +2,20 @@
 function loadEnvironmentConfig() {
     // ブラウザ環境では、設定は別途読み込む必要があります
     // 実際の実装では、設定ファイルやサーバーサイドAPIを使用してください
+    
+    // config.js が読み込まれているかチェック
+    if (typeof window.GOOGLE_SHEETS_API_KEY === 'undefined') {
+        console.error('Config.js が読み込まれていません。GitHub Actions でのデプロイを確認してください。');
+        // フォールバック設定を使用
+        return {
+            apiKey: '',
+            spreadsheetId: '',
+            googleAppsScriptUrl: '',
+            range: 'Sheet1!A1:Z100'
+        };
+    }
+    
+    console.log('Config.js が正常に読み込まれました');
     return {
         apiKey: window.GOOGLE_SHEETS_API_KEY || '',
         spreadsheetId: window.GOOGLE_SPREADSHEET_ID || '',

@@ -28,7 +28,8 @@ jobs:
       
     - name: Generate config.js from environment variables
       run: |
-        cat > config.js << EOF
+        echo "Generating config.js..."
+        cat > config.js << 'EOF'
         // Google Sheets API設定 - GitHub Actions環境変数から生成
         // 注意: このファイルはCI/CDで動的に生成されます
         
@@ -37,9 +38,14 @@ jobs:
         window.GOOGLE_APPS_SCRIPT_URL = '${{ secrets.GOOGLE_APPS_SCRIPT_URL }}';
         
         // デプロイ情報
-        window.DEPLOY_TIMESTAMP = '$(date -u +"%Y-%m-%d %H:%M:%S UTC")';
+        window.DEPLOY_TIMESTAMP = new Date().toISOString();
         window.DEPLOY_COMMIT = '${{ github.sha }}';
+        console.log('Config loaded successfully');
         EOF
+        echo "Config.js generated successfully"
+        ls -la config.js
+        echo "Content preview:"
+        head -5 config.js
         
     - name: Verify config.js was created
       run: |
