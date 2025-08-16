@@ -206,31 +206,41 @@ async function loadRestaurantsFromGoogleSheets() {
 // UI初期化
 function initializeUI() {
     // ランチ決定ボタン
-    document.getElementById('decide-btn').addEventListener('click', decideLunch);
+    const decideBtn = document.getElementById('decide-btn');
+    if (decideBtn) decideBtn.addEventListener('click', decideLunch);
     
     // やり直しボタン
-    document.getElementById('retry-btn').addEventListener('click', retrySelection);
+    const retryBtn = document.getElementById('retry-btn');
+    if (retryBtn) retryBtn.addEventListener('click', retrySelection);
     
     // 確定ボタン
-    document.getElementById('confirm-btn').addEventListener('click', confirmSelection);
+    const confirmBtn = document.getElementById('confirm-btn');
+    if (confirmBtn) confirmBtn.addEventListener('click', confirmSelection);
     
     // 設定関連
     const ratingWeightSlider = document.getElementById('rating-weight');
-    ratingWeightSlider.addEventListener('input', function() {
-        settings.ratingWeight = parseFloat(this.value);
-        document.getElementById('rating-weight-value').textContent = settings.ratingWeight;
-        saveSettings();
-    });
+    if (ratingWeightSlider) {
+        ratingWeightSlider.addEventListener('input', function() {
+            settings.ratingWeight = parseFloat(this.value);
+            const valueElement = document.getElementById('rating-weight-value');
+            if (valueElement) valueElement.textContent = settings.ratingWeight;
+            saveSettings();
+        });
+    }
     
     const newDiscoverySlider = document.getElementById('new-discovery-rating');
-    newDiscoverySlider.addEventListener('input', function() {
-        settings.newDiscoveryRating = parseFloat(this.value);
-        document.getElementById('new-discovery-rating-value').textContent = settings.newDiscoveryRating;
-        saveSettings();
-    });
+    if (newDiscoverySlider) {
+        newDiscoverySlider.addEventListener('input', function() {
+            settings.newDiscoveryRating = parseFloat(this.value);
+            const valueElement = document.getElementById('new-discovery-rating-value');
+            if (valueElement) valueElement.textContent = settings.newDiscoveryRating;
+            saveSettings();
+        });
+    }
     
     // 履歴リセットボタン
-    document.getElementById('reset-history-btn').addEventListener('click', resetHistory);
+    const resetBtn = document.getElementById('reset-history-btn');
+    if (resetBtn) resetBtn.addEventListener('click', resetHistory);
 }
 
 // ランチ決定メイン処理
