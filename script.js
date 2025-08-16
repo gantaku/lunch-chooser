@@ -421,7 +421,6 @@ function displayResult(restaurant) {
     
     // 店舗情報を表示
     document.getElementById('restaurant-name').textContent = restaurant.name;
-    document.getElementById('restaurant-genre').textContent = restaurant.genre;
     
     if (restaurant.id === 'new-discovery') {
         // 通常の店舗詳細を非表示にし、新規開拓専用表示を表示
@@ -431,6 +430,9 @@ function displayResult(restaurant) {
         // 新規開拓表示を非表示にし、通常の店舗詳細を表示
         document.getElementById('new-discovery-details').style.display = 'none';
         document.getElementById('normal-restaurant-details').style.display = 'block';
+        
+        // 通常の店舗の場合のみジャンルを設定
+        document.getElementById('restaurant-genre').textContent = restaurant.genre;
         
         const avgRating = calculateAverageRating(restaurant);
         const ratingCount = restaurant.ratings ? restaurant.ratings.length : 0;
