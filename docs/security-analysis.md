@@ -32,7 +32,7 @@ Lunch Chooserプロジェクトの包括的セキュリティ分析を実施し�
 - ✅ **動的config.js**: ビルド時の安全な設定ファイル生成
 
 ### 2. **API制限設定**
-- ✅ **HTTPリファラー制限**: `https://ganta9.github.io/*`のみ許可
+- ✅ **HTTPリファラー制限**: `https://gantaku.github.io/*`のみ許可
 - ✅ **API制限**: Google Sheets APIのみアクセス可能
 - ✅ **使用量制限**: Google Cloud Consoleでの監視設定
 
@@ -57,7 +57,7 @@ Lunch Chooserプロジェクトの包括的セキュリティ分析を実施し�
 - ✅ **データサニタイゼーション**: 不正文字の除去
 
 ### 5. **CORS強化設定**
-- ✅ **特定オリジン制限**: `https://ganta9.github.io`のみ許可
+- ✅ **特定オリジン制限**: `https://gantaku.github.io`のみ許可
 - ✅ **セキュリティヘッダー**: X-Content-Type-Options, X-Frame-Options, X-XSS-Protection
 
 ## 🛡️ セキュリティアーキテクチャ

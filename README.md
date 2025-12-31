@@ -4,7 +4,7 @@
 
 ## 🌐 公開サイト
 
-**URL**: https://ganta9.github.io/lunch-chooser/
+**URL**: https://gantaku.github.io/lunch-chooser/
 
 ## 概要
 
@@ -155,7 +155,7 @@ lunch-chooser/
 ### ローカル開発
 ```bash
 # リポジトリクローン
-git clone https://github.com/ganta9/lunch-chooser.git
+git clone https://github.com/gantaku/lunch-chooser.git
 cd lunch-chooser
 
 # 設定ファイル作成
@@ -180,7 +180,7 @@ python3 -m http.server 8000
 
 ## 🐛 サポート・貢献
 
-- **バグ報告**: [GitHub Issues](https://github.com/ganta9/lunch-chooser/issues)
+- **バグ報告**: [GitHub Issues](https://github.com/gantaku/lunch-chooser/issues)
 - **機能要望**: GitHub Issues で提案
 - **セキュリティ問題**: リポジトリメンテナーに直接連絡
 

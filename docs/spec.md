@@ -120,7 +120,7 @@ const RESTAURANT_DATA = {
 
 ### 5.1 アクセス方法
 ```
-https://ganta9.github.io/lunch-decider
+https://gantaku.github.io/lunch-chooser
 ```
 
 ### 5.2 条件選択画面

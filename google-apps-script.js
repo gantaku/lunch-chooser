@@ -212,7 +212,7 @@ function createCORSResponse(content) {
     .createTextOutput(content)
     .setMimeType(ContentService.MimeType.JSON)
     .setHeaders({
-      'Access-Control-Allow-Origin': 'https://ganta9.github.io',
+      'Access-Control-Allow-Origin': 'https://gantaku.github.io',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       'Access-Control-Max-Age': '3600',

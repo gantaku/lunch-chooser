@@ -6,7 +6,7 @@
 
 以下の環境変数をGitHubリポジトリのシークレットに設定してください：
 
-1. GitHubリポジトリにアクセス: https://github.com/ganta9/lunch-chooser
+1. GitHubリポジトリにアクセス: https://github.com/gantaku/lunch-chooser
 2. Settings → Secrets and variables → Actions
 3. 「New repository secret」で以下を追加：
 
@@ -26,7 +26,7 @@
 
 1. main ブランチにプッシュ
 2. GitHub Actions が自動実行
-3. 完了後、https://ganta9.github.io/lunch-chooser/ でアクセス可能
+3. 完了後、https://gantaku.github.io/lunch-chooser/ でアクセス可能
 
 ## ローカル開発
 
@@ -115,7 +115,7 @@ python3 -m http.server 8000
 1. **APIキー制限の確認**:
    - Google Cloud Console → APIs & Services → 認証情報
    - APIキーの制限を確認:
-     - HTTPリファラー: `https://ganta9.github.io/*`
+     - HTTPリファラー: `https://gantaku.github.io/*`
      - API制限: Google Sheets API のみ
 
 2. **スプレッドシートの共有設定**:
@@ -242,6 +242,6 @@ git push
 ### 📞 サポート
 
 問題が解決しない場合:
-1. [GitHub Issues](https://github.com/ganta9/lunch-chooser/issues) でバグ報告
+1. [GitHub Issues](https://github.com/gantaku/lunch-chooser/issues) でバグ報告
 2. GitHub Actionsのログを添付
 3. ブラウザの開発者ツールのエラーログを添付
