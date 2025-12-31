@@ -12,14 +12,14 @@ APIキーは**環境変数として管理**され、ソースコードには含�
 3. Google Sheets API を有効化
 4. 「APIs & Services」→「認証情報」でAPIキーを作成
 5. **重要**: APIキーに以下の制限を設定：
-   - **HTTPリファラー制限**: `https://ganta9.github.io/*` を許可
+   - **HTTPリファラー制限**: `https://gantaku.github.io/*` を許可
    - **API制限**: Google Sheets API のみ許可
 
 ### 2. GitHub Repository Secretsの設定
 
 **本番環境（推奨）**:
 
-1. GitHubリポジトリにアクセス: https://github.com/ganta9/lunch-chooser
+1. GitHubリポジトリにアクセス: https://github.com/gantaku/lunch-chooser
 2. Settings → Secrets and variables → Actions
 3. 「New repository secret」で以下を追加：
 
